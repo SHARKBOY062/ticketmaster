@@ -1,0 +1,43 @@
+.tm-sales {
+  background: #ffffff;
+  padding: 40px 24px 80px;
+  color: #2b2b2b;
+}
+
+.tm-sales-container {
+  max-width: 960px;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.tm-sales-fee {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.tm-sales h4 {
+  margin-top: 24px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.tm-subtitle {
+  font-weight: 700;
+  margin-top: 12px;
+}
+
+.tm-spacing {
+  margin-top: 16px;
+}
+
+.tm-link {
+  color: #0146d5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.tm-link:hover {
+  text-decoration: underline;
+}

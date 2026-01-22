@@ -1,0 +1,74 @@
+.ins-details {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 2px;
+  padding: 22px 22px;
+  margin-top: 6px;
+}
+
+.ins-details-top {
+  font-size: 14px;
+  color: #111827;
+  margin: 10px 0 16px;
+}
+
+.ins-link {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.ins-link:hover {
+  text-decoration: underline;
+}
+
+.ins-table-wrap {
+  overflow-x: auto;
+  margin: 10px 0 18px;
+}
+
+.ins-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px; /* ajuda a ficar como print no desktop */
+}
+
+.ins-table td {
+  border: 1px solid #111827;
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.35;
+  vertical-align: top;
+  color: #111827;
+}
+
+.ins-td-title {
+  width: 28%;
+  font-weight: 500;
+}
+
+.ins-paragraph {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #111827;
+  margin: 14px 0;
+}
+
+.ins-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: underline;
+  color: #111827;
+  margin-top: 18px;
+}
+
+.ins-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+}
+
+/* mobile */
+@media (max-width: 640px) {
+  .ins-details {
+    padding: 18px 16px;
+  }
+}

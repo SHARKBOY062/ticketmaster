@@ -1,0 +1,320 @@
+.sector-prices {
+  width: 100%;
+  background: #ffffff;
+  min-height: calc(100vh - 112px); /* se estiver dentro do layout tickets */
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+.prices-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 18px 14px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.prices-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.prices-header button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #c2410c;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ROWS (estilo sector-item) */
+.price-row {
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.price-row:hover {
+  background: #fafafa;
+}
+
+.price-row-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 22px 18px 22px 20px;
+}
+
+/* LEFT */
+.price-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.price-info strong {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.price-info span {
+  display: block;
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.2;
+}
+
+/* INFO ? */
+.info-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #8b9cf6;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* COUNTER (print) */
+.counter {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 230px;
+  height: 62px;
+  background: #f3f4f6;
+  border-radius: 10px;
+  padding: 0 18px;
+}
+
+.counter span {
+  font-size: 18px;
+  color: #111827;
+  min-width: 18px;
+  text-align: center;
+}
+
+.counter button {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  color: #94a3b8;
+}
+
+.counter button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.counter button.active {
+  color: #1f4fd8;
+}
+
+/* DISABLED */
+.price-row.disabled {
+  opacity: 0.45;
+}
+.price-row.disabled:hover {
+  background: #ffffff;
+}
+
+.soldout {
+  flex-shrink: 0;
+  background: #d1d5db;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* =========================
+   REVIEW CARD (PRINT)
+========================= */
+.review-card {
+  margin: 18px 18px 0 20px;
+  border: 1px solid #dbe3f1;
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow: 0 2px 0 rgba(15, 23, 42, 0.03);
+  overflow: hidden;
+}
+
+.review-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 18px 18px 10px 18px;
+}
+
+.review-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.review-close {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  border: 1px solid #dbe3f1;
+  background: #ffffff;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  color: #111827;
+}
+
+.review-section {
+  padding: 0 18px 14px 18px;
+}
+
+.review-label {
+  font-size: 22px;
+  color: #6b7280;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.review-section-name {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #111827;
+}
+
+.review-divider {
+  height: 1px;
+  background: #dbe3f1;
+}
+
+.review-bottom {
+  padding: 16px 18px 18px 18px;
+}
+
+.review-value-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.review-value-left {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.review-value-type {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.review-value-price {
+  font-size: 22px;
+  font-weight: 800;
+  color: #7a9151; /* verde do print */
+}
+
+.review-change {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 22px;
+  color: #1f4fd8; /* azul do print */
+  cursor: pointer;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* =========================
+   FOOTER FIXO (TOTAL + BOTÃO)
+========================= */
+.total-box {
+  margin-top: auto;            /* empurra pra baixo */
+  position: sticky;
+  bottom: 0;
+  background: #ffffff;
+  padding: 18px 18px 22px 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.total-value {
+  border: 1px solid #c7d2fe;
+  border-radius: 6px;
+  padding: 18px;
+  text-align: center;
+  font-size: 22px;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+.total-value strong {
+  font-weight: 800;
+}
+
+/* BOTÃO */
+.continue-btn {
+  width: 100%;
+  height: 72px; /* mais alto igual print */
+  background: #1f4fd8;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 26px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.continue-btn:hover {
+  background: #1b45c4;
+}
+
+/* MOBILE */
+@media (max-width: 640px) {
+  .prices-header {
+    padding: 18px 16px 14px 18px;
+  }
+
+  .price-row-inner {
+    padding: 22px 16px 22px 18px;
+  }
+
+  .counter {
+    width: 210px;
+    height: 60px;
+    padding: 0 14px;
+  }
+
+  .review-card {
+    margin: 18px 16px 0 18px;
+  }
+
+  .total-box {
+    padding: 18px 16px 22px 18px;
+  }
+}

@@ -1,0 +1,146 @@
+.sector-item {
+  width: 100%;
+  background: #ffffff;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  border-bottom: 1px solid #e5e7eb;
+  display: block;
+}
+
+.sector-item:hover {
+  background: #fafafa;
+}
+
+.sector-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  /* 🔥 mais largo (igual print) */
+  padding: 28px 32px 28px 34px;
+  gap: 18px;
+}
+
+/* barra colorida na esquerda */
+.sector-stripe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+
+  /* 🔥 mais grossa (igual print) */
+  width: 6px;
+}
+
+/* bloco principal */
+.sector-main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* título */
+.sector-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.2;
+}
+
+/* preço */
+.sector-price {
+  font-size: 16px;
+  color: #374151;
+  line-height: 1.2;
+}
+
+/* subtexto */
+.sector-sub {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.sector-icon {
+  font-size: 14px;
+  line-height: 1;
+  color: #9ca3af;
+}
+
+/* chevron */
+.sector-chevron {
+  flex-shrink: 0;
+  font-size: 30px;
+  color: #c0c4cc;
+  line-height: 1;
+  margin-right: 4px;
+}
+
+/* ===== CORES (por opção) ===== */
+.stripe-blue { background: #1f4fd8; }
+.stripe-blue-soft { background: #5b87ff; }
+.stripe-blue-light { background: #9bb8ff; }
+.stripe-purple { background: #8b5cf6; }
+.stripe-red { background: #dc2626; }
+.stripe-pink { background: #f3a1a9; }
+.stripe-orange { background: #f59e0b; }
+.stripe-gold { background: #d6b25e; }
+.stripe-gray { background: #cbd5e1; }
+
+/* ===== RESPONSIVO ===== */
+
+/* telas grandes: mais “ticketmaster” */
+@media (min-width: 1024px) {
+  .sector-content {
+    padding: 30px 36px 30px 38px;
+  }
+
+  .sector-title {
+    font-size: 20px;
+  }
+
+  .sector-price {
+    font-size: 16px;
+  }
+}
+
+/* tablet */
+@media (max-width: 1024px) {
+  .sector-content {
+    padding: 26px 24px 26px 26px;
+  }
+}
+
+/* mobile: igual ao print */
+@media (max-width: 640px) {
+  .sector-content {
+    padding: 22px 16px 22px 18px;
+    gap: 14px;
+  }
+
+  .sector-stripe {
+    width: 5px;
+  }
+
+  .sector-title {
+    font-size: 18px;
+  }
+
+  .sector-price {
+    font-size: 16px;
+  }
+
+  .sector-sub {
+    font-size: 14px;
+  }
+
+  .sector-chevron {
+    font-size: 28px;
+  }
+}

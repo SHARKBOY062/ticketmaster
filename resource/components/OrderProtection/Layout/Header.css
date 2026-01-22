@@ -1,0 +1,47 @@
+.tm-header {
+  background-color: #0146d5;
+  width: 100%;
+}
+
+.tm-header-container {
+  width: 100%;
+  height: 56px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tm-logo-img {
+  height: 22px;
+  width: auto;
+}
+
+.tm-nav {
+  display: flex;
+  gap: 32px;
+}
+
+.tm-nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .tm-header-container {
+    padding: 0 16px;
+  }
+
+  .tm-nav {
+    display: none;
+  }
+}
+
+.tickets-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}

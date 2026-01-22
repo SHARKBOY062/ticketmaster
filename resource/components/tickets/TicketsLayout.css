@@ -1,0 +1,77 @@
+.tickets {
+  display: flex;
+  background: #eef1f5;
+  min-height: calc(100vh - 112px); /* header + event bar */
+}
+
+/* MAPA (coluna esquerda) */
+.tickets-map {
+  flex: 1;
+  padding: 28px 32px; /* ✅ igual ao print (um pouco menos em cima/baixo) */
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  min-width: 0; /* ✅ evita “empurrar” sidebar */
+}
+
+/* CARD BRANCO */
+.map-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px;          /* ✅ print */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* SIDEBAR (coluna direita) */
+.tickets-sidebar {
+  width: 560px;           /* ✅ MAIS LARGO (≈ +5cm) igual print */
+  background: #ffffff;
+  border-left: 1px solid #e5e7eb;
+  overflow-y: auto;
+
+  /* ✅ dá o mesmo “respiro” do print */
+  padding: 0;
+}
+
+/* ✅ scrollbar discreto (opcional, mas ajuda a ficar igual) */
+.tickets-sidebar::-webkit-scrollbar {
+  width: 10px;
+}
+.tickets-sidebar::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 999px;
+}
+.tickets-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* RESPONSIVO */
+@media (max-width: 1280px) {
+  .tickets-sidebar {
+    width: 520px; /* mantém grande, mas cabe melhor */
+  }
+}
+
+@media (max-width: 1024px) {
+  .tickets {
+    flex-direction: column;
+  }
+
+  .tickets-map {
+    padding: 16px;
+  }
+
+  .map-card {
+    padding: 20px;
+  }
+
+  .tickets-sidebar {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #e5e7eb;
+  }
+}

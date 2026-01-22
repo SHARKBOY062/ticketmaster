@@ -1,0 +1,22 @@
+.tc-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 2.5px;
+  overflow: hidden;
+}
+
+.tc-inner {
+  padding: 26px 26px;
+  font-size: 17px;
+  line-height: 1.9;
+  color: #111827;
+}
+
+.tc-inner p {
+  margin: 0 0 17px;
+}
+
+.tc-inner a {
+  color: #2563eb;
+  text-decoration: underline;
+}

@@ -1,0 +1,112 @@
+.sum-card {
+  background: #ffffff;
+  border: 1.2px solid #e5e7eb; /* +20% */
+  border-radius: 2.4px;         /* +20% */
+  overflow: hidden;
+}
+
+.sum-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16.8px 19.2px;       /* +20% */
+  background: #ffffff;
+}
+
+.sum-title {
+  font-size: 15.6px;            /* +20% */
+  font-weight: 600;
+  color: #111827;
+}
+
+.sum-cancel {
+  border: none;
+  background: none;
+  color: #2563eb;
+  font-size: 14.4px;            /* +20% */
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.sum-body {
+  padding: 16.8px 19.2px 14.4px; /* +20% */
+}
+
+.sum-event {
+  color: #0146d5;
+  font-size: 14.4px;            /* +20% */
+  font-weight: 600;
+  margin-bottom: 14.4px;        /* +20% */
+}
+
+.sum-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14.4px;                  /* +20% */
+  padding: 12px 0;              /* +20% */
+  border-top: 1.2px solid #eef2f7; /* +20% */
+}
+
+.sum-row:first-of-type {
+  border-top: none;
+}
+
+.sum-left {
+  font-size: 14.4px;            /* +20% */
+  color: #111827;
+  line-height: 1.25;
+  min-width: 0;
+}
+
+.sum-right {
+  font-size: 14.4px;            /* +20% */
+  color: #111827;
+  white-space: nowrap;
+}
+
+.sum-row.muted .sum-left,
+.sum-row.muted .sum-right {
+  color: #374151;
+}
+
+.sum-divider {
+  height: 1.2px;                /* +20% */
+  background: #e5e7eb;
+  margin: 12px 0;               /* +20% */
+}
+
+.sum-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 4.8px;           /* +20% */
+}
+
+.sum-total-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;                    /* +20% */
+  font-size: 15.6px;            /* +20% */
+  color: #111827;
+  font-weight: 600;
+}
+
+.sum-pill {
+  width: 26.4px;                /* +20% */
+  height: 26.4px;               /* +20% */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3.6px;         /* +20% */
+  background: #e8f0ff;
+  color: #0146d5;
+  font-size: 14.4px;            /* +20% */
+  font-weight: 700;
+}
+
+.sum-total-right {
+  font-size: 15.6px;            /* +20% */
+  font-weight: 700;
+  color: #111827;
+  white-space: nowrap;
+}

@@ -1,0 +1,50 @@
+.tm-banner {
+  position: relative;
+  width: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+/* BASE */
+.tm-banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* MOBILE FIRST */
+.tm-banner-img.desktop {
+  display: none;
+}
+
+/* 📱 MOBILE — NÃO MEXE */
+@media (max-width: 640px) {
+  .tm-banner-img.mobile {
+    max-height: 260px;
+    object-fit: contain;
+  }
+}
+
+/* 📱 TABLET — NÃO MEXE */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .tm-banner-img.mobile {
+    max-height: 360px;
+    object-fit: contain;
+  }
+}
+
+/* 🖥️ DESKTOP — SEM CORTE */
+@media (min-width: 1025px) {
+  .tm-banner-img.mobile {
+    display: none;
+  }
+
+  .tm-banner-img.desktop {
+    display: block;
+    width: 100%;
+    height: auto;        /* 🔥 ISSO REMOVE O CORTE */
+    object-fit: contain; /* 🔥 imagem inteira */
+    max-width: 2560px;   /* opcional, padrão profissional */
+    margin: 0 auto;
+  }
+}

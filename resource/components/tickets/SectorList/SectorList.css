@@ -1,0 +1,13 @@
+.sector-list {
+  width: 100%;
+  background: #ffffff;
+}
+
+.sector-list h3 {
+  margin: 0;
+  padding: 18px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  border-bottom: 1px solid #e5e7eb;
+}

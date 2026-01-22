@@ -1,0 +1,111 @@
+.pay-page {
+  background: #eef1f5;
+  width: 100%;
+  min-height: calc(100vh - 128px);
+}
+
+.pay-wrap {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 44px 32px 72px;
+}
+
+.pay-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #111827;
+  margin: 10px 0 22px;
+}
+
+.pay-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 28px;
+  align-items: start;
+}
+
+.pay-left,
+.pay-right {
+  min-width: 0;
+}
+
+.pay-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 2px;
+  padding: 16px 16px 18px;
+}
+
+.pay-card-hint {
+  font-size: 13px;
+  color: #374151;
+  margin-bottom: 12px;
+}
+
+.pay-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pay-field label {
+  display: block;
+  font-size: 12px;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.pay-field input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #d1d5db;
+  border-radius: 2px;
+  padding: 0 12px;
+  font-size: 13px;
+  color: #111827;
+  outline: none;
+}
+
+.pay-field input:focus {
+  border-color: #0146d5;
+}
+
+.pay-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.pay-btn {
+  margin-top: 6px;
+  width: 100%;
+  height: 44px;
+  border: none;
+  border-radius: 2px;
+  background: #0146d5;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.pay-btn:hover {
+  filter: brightness(0.95);
+}
+
+/* RESPONSIVO */
+@media (max-width: 1024px) {
+  .pay-wrap {
+    padding: 28px 16px 48px;
+  }
+
+  .pay-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .pay-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}

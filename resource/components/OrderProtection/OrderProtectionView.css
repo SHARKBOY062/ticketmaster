@@ -1,0 +1,77 @@
+.op-page {
+  background: #eef1f5;
+  width: 100%;
+  min-height: calc(100vh - 128px);
+}
+
+.op-wrap {
+  width: 100%;
+  max-width: 1200px;      /* ✅ mais parecido com o print */
+  margin: 0 auto;
+  padding: 46px 24px 86px;
+}
+
+.op-title {
+  font-size: 18px;
+  color: #111827;
+  text-align: left;
+  margin: 0 0 26px;
+  line-height: 1.45;
+}
+
+.op-terms-title {
+  font-size: 18px;
+  color: #111827;
+  text-align: left;
+  margin: 0 0 26px;
+  line-height: 1.45;
+}
+
+.op-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px; /* ✅ direita igual print */
+  gap: 34px;
+  align-items: start;
+}
+
+.op-left,
+.op-right {
+  min-width: 0;
+}
+
+.op-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 34px;
+}
+
+.op-continue {
+  width: 420px;
+  height: 48px;
+  border: none;
+  border-radius: 3px;
+  background: #0146d5;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.op-continue:hover {
+  filter: brightness(0.95);
+}
+
+@media (max-width: 1024px) {
+  .op-wrap {
+    padding: 28px 16px 48px;
+  }
+
+  .op-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .op-continue {
+    width: min(520px, 100%);
+  }
+}

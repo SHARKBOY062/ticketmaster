@@ -1,0 +1,53 @@
+.tm-header {
+  background-color: #0146d5;
+  width: 100%;
+}
+
+/* CONTAINER FULL BLEED */
+.tm-header-container {
+  width: 100%;
+  height: 56px;
+
+  padding: 0 32px;            /* 🔥 encosta mais nas extremidades */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* LOGO */
+.tm-logo-img {
+  height: 22px;
+  width: auto;
+}
+
+/* NAV */
+.tm-nav {
+  display: flex;
+  gap: 32px;
+}
+
+.tm-nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* MOBILE */
+@media (max-width: 640px) {
+  .tm-header-container {
+    padding: 0 16px;          /* 🔥 exatamente como no print mobile */
+  }
+
+  .tm-nav {
+    display: none;
+  }
+}
+
+/* FIXO NA TICKETS */
+.tickets-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}

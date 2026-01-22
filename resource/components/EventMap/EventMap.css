@@ -1,0 +1,13 @@
+.tm-map-only {
+  background: #ffffff;
+  padding: 80px 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.tm-map-image {
+  width: 100%;
+  max-width: 900px; /* 🔥 imagem GRANDE */
+  height: auto;
+  display: block;
+}
