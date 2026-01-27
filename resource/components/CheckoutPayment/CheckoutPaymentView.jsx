@@ -79,10 +79,6 @@ export default function CheckoutPaymentView() {
     cep: "",
     street: "",
     number: "",
-    complement: "",
-    neighborhood: "",
-    city: "",
-    state: "",
   });
 
   const setField = (key) => (e) => {
@@ -100,7 +96,6 @@ export default function CheckoutPaymentView() {
 
   /* ================= CEP ================= */
 
-  const [cepLoading, setCepLoading] = useState(false);
   const [cepSuccess, setCepSuccess] = useState(false);
 
   useEffect(() => {
@@ -110,28 +105,19 @@ export default function CheckoutPaymentView() {
   }, [form.cep]);
 
   const fetchCep = async (zip) => {
-    setCepLoading(true);
-    setCepSuccess(false);
-
     try {
       const res = await fetch(`https://viacep.com.br/ws/${zip}/json/`);
       const json = await res.json();
-
       if (json.erro) throw new Error();
 
       setForm((p) => ({
         ...p,
         street: json.logradouro,
-        neighborhood: json.bairro,
-        city: json.localidade,
-        state: json.uf,
       }));
 
       setCepSuccess(true);
     } catch {
-      alert("CEP não encontrado");
-    } finally {
-      setCepLoading(false);
+      setCepSuccess(false);
     }
   };
 
@@ -143,6 +129,15 @@ export default function CheckoutPaymentView() {
   const [expiresAt, setExpiresAt] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);
   const [copied, setCopied] = useState(false);
+
+  /* ================= NOTIFICATION ================= */
+
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message) => {
+    setToast(message);
+    setTimeout(() => setToast(null), 4000);
+  };
 
   useEffect(() => {
     if (!expiresAt) return;
@@ -156,7 +151,6 @@ export default function CheckoutPaymentView() {
 
       if (diff === 0) {
         clearInterval(interval);
-        alert("PIX expirado. Gere um novo pagamento.");
         setPixData(null);
         setCopied(false);
       }
@@ -176,7 +170,8 @@ export default function CheckoutPaymentView() {
       !form.number ||
       !cepSuccess
     ) {
-      return alert("Preencha todos os campos obrigatórios.");
+      showToast("Preencha todos os campos corretamente.");
+      return;
     }
 
     try {
@@ -212,7 +207,7 @@ export default function CheckoutPaymentView() {
       setExpiresAt(Date.now() + 10 * 60 * 1000);
       setTimeLeft(600);
     } catch {
-      alert("Erro ao gerar PIX");
+      showToast("Estamos com instabilidade no momento.");
     } finally {
       setLoadingPix(false);
     }
@@ -241,49 +236,22 @@ export default function CheckoutPaymentView() {
                   <div className="pay-grid-2">
                     <div className="pay-field">
                       <label>CPF</label>
-                      <input
-                        value={form.cpf}
-                        onChange={setField("cpf")}
-                        maxLength={14}
-                      />
+                      <input value={form.cpf} onChange={setField("cpf")} />
                     </div>
-
                     <div className="pay-field">
                       <label>Data de nascimento</label>
-                      <input
-                        type="date"
-                        value={form.birth}
-                        onChange={setField("birth")}
-                      />
+                      <input type="date" value={form.birth} onChange={setField("birth")} />
                     </div>
-                  </div>
-
-                  <div className="pay-field">
-                    <label>Email</label>
-                    <input
-                      type="email"
-                      value={form.email}
-                      onChange={setField("email")}
-                    />
                   </div>
 
                   <div className="pay-grid-2">
                     <div className="pay-field">
                       <label>CEP</label>
-                      <input
-                        value={form.cep}
-                        onChange={setField("cep")}
-                        maxLength={9}
-                        placeholder="00000-000"
-                      />
+                      <input value={form.cep} onChange={setField("cep")} />
                     </div>
-
                     <div className="pay-field">
                       <label>Número</label>
-                      <input
-                        value={form.number}
-                        onChange={setField("number")}
-                      />
+                      <input value={form.number} onChange={setField("number")} />
                     </div>
                   </div>
 
@@ -310,6 +278,9 @@ export default function CheckoutPaymentView() {
         </div>
       </div>
 
+      {/* ================= TOAST ================= */}
+      {toast && <div className="toast-error">{toast}</div>}
+
       {/* ================= MODAL PIX ================= */}
       {pixData && (
         <div className="pix-modal-overlay">
@@ -320,7 +291,6 @@ export default function CheckoutPaymentView() {
 
             <div className="pix-modal-content">
               <div className="pix-modal-title">Pagamento via PIX</div>
-
               <div className="pix-expiration">
                 Expira em <strong>{formatTime(timeLeft)}</strong>
               </div>
@@ -329,11 +299,7 @@ export default function CheckoutPaymentView() {
                 <img src={qrImg} alt="QR Code PIX" />
               </div>
 
-              <input
-                className="pix-copy"
-                value={pixData.qr_code_text}
-                readOnly
-              />
+              <input className="pix-copy" value={pixData.qr_code_text} readOnly />
 
               <button
                 className="pix-btn"

@@ -43,12 +43,6 @@
   padding: 18px 18px 20px;
 }
 
-.pay-card-hint {
-  font-size: 13px;
-  color: #374151;
-  margin-bottom: 12px;
-}
-
 /* ================= FORM ================= */
 
 .pay-form {
@@ -78,15 +72,17 @@
   color: #111827;
   outline: none;
   background: #ffffff;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .pay-field input:focus {
   border-color: #0146d5;
+  box-shadow: 0 0 0 3px rgba(1, 70, 213, 0.12);
 }
 
 /* Campos preenchidos automaticamente via API */
-.pay-field input.input-disabled {
+.pay-field input.input-disabled,
+.pay-field input:read-only {
   background-color: #f9fafb;
   color: #6b7280;
   cursor: not-allowed;
@@ -116,12 +112,14 @@
   position: absolute;
   right: 12px;
   color: #16a34a;
-  font-weight: bold;
+  font-weight: 800;
   font-size: 16px;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ================= GRID 2 ================= */
@@ -143,13 +141,17 @@
   background: #0146d5;
   color: #ffffff;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: filter 0.2s;
+  transition: filter 0.2s, transform 0.05s;
 }
 
 .pay-btn:hover:not(:disabled) {
-  filter: brightness(0.9);
+  filter: brightness(0.92);
+}
+
+.pay-btn:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 .pay-btn:disabled {
@@ -157,7 +159,44 @@
   cursor: not-allowed;
 }
 
-/* ================= PIX MODAL ================= */
+/* =====================================================================================
+   TOAST (NOTIFICAÇÃO LATERAL)
+===================================================================================== */
+
+.toast-error {
+  position: fixed;
+  top: 22px;
+  right: 22px;
+  z-index: 10000;
+
+  min-width: 280px;
+  max-width: 360px;
+
+  background: #111827;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 14px 14px;
+
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  animation: toastIn 0.35s ease both;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* =====================================================================================
+   PIX MODAL
+===================================================================================== */
 
 .pix-modal-overlay {
   position: fixed;
@@ -191,6 +230,7 @@
   }
 }
 
+/* TOP BAR */
 .pix-modal-topbar {
   background: #0b4dd9;
   height: 56px;
@@ -204,6 +244,7 @@
   object-fit: contain;
 }
 
+/* CONTENT */
 .pix-modal-content {
   padding: 20px 22px 22px;
   text-align: center;
@@ -211,15 +252,9 @@
 
 .pix-modal-title {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
   color: #111827;
-  margin-bottom: 4px;
-}
-
-.pix-modal-subtitle {
-  font-size: 13px;
-  color: #6b7280;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .pix-expiration {
@@ -232,6 +267,7 @@
   color: #dc2626;
 }
 
+/* QR */
 .pix-qrcode {
   display: flex;
   justify-content: center;
@@ -247,6 +283,7 @@
   background: #ffffff;
 }
 
+/* Copy */
 .pix-copy {
   width: 100%;
   height: 40px;
@@ -260,17 +297,26 @@
   text-align: center;
 }
 
+/* Buttons */
 .pix-btn {
   width: 100%;
   height: 42px;
   border: none;
   border-radius: 6px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   background: #16a34a;
   color: #ffffff;
-  transition: filter 0.2s;
+  transition: filter 0.2s, transform 0.05s;
+}
+
+.pix-btn:hover:not(:disabled) {
+  filter: brightness(0.95);
+}
+
+.pix-btn:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 .pix-btn + .pix-btn {
@@ -284,7 +330,9 @@
   cursor: not-allowed;
 }
 
-/* ================= RESPONSIVO ================= */
+/* =====================================================================================
+   RESPONSIVO
+===================================================================================== */
 
 @media (max-width: 1024px) {
   .pay-wrap {
@@ -298,5 +346,21 @@
 
   .pay-grid-2 {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  /* toast embaixo no mobile */
+  .toast-error {
+    top: auto;
+    right: 14px;
+    left: 14px;
+    bottom: 14px;
+    max-width: none;
+    min-width: 0;
+  }
+
+  .pix-modal {
+    margin: 0 14px;
   }
 }
