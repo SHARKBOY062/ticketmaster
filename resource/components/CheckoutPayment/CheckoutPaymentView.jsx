@@ -1,15 +1,15 @@
 import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
+import QRCode from "qrcode";
 
-// ✅ usar os mesmos do OrderProtection/Layout (os "certos")
 import TicketsHeader from "../OrderProtection/Layout/TicketsHeader";
 import EventBar from "../OrderProtection/Layout/EventBar";
 import Footer from "../OrderProtection/Layout/Footer";
-
-// ✅ reaproveita seu SummaryCard
 import SummaryCard from "../OrderProtection/SummaryCard/SummaryCard";
 
 import "./CheckoutPaymentView.css";
+
+/* ================= UTIL ================= */
 
 function onlyDigits(v = "") {
   return String(v).replace(/\D/g, "");
@@ -17,59 +17,37 @@ function onlyDigits(v = "") {
 
 function formatCPF(v = "") {
   const d = onlyDigits(v).slice(0, 11);
-  const p1 = d.slice(0, 3);
-  const p2 = d.slice(3, 6);
-  const p3 = d.slice(6, 9);
-  const p4 = d.slice(9, 11);
-
-  let out = p1;
-  if (p2) out += "." + p2;
-  if (p3) out += "." + p3;
-  if (p4) out += "-" + p4;
-  return out;
+  return d
+    .replace(/^(\d{3})(\d)/, "$1.$2")
+    .replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
+    .replace(/\.(\d{3})(\d)/, ".$1-$2");
 }
+
+/* ================= COMPONENT ================= */
 
 export default function CheckoutPaymentView() {
   const { state } = useLocation();
 
-  // ✅ vem do OrderProtection -> navigate("/checkout/payment", { state: { checkout } })
   const data = state?.checkout ?? {
-    selectionTitle: "The Weeknd - São Paulo - 30/04/2026",
-    items: [
-      {
-        qty: 1,
-        sectorName: "Pacote Diamond Vip Lounge",
-        valueLabel: "Inteira",
-        ticketUnit: 12343.94,
-        feeUnit: 2468.79,
-        ticketTotal: 12343.94,
-        feeTotal: 2468.79,
-      },
-    ],
-    adminTax: { label: "1 x Taxa de Administração MorumbiS", value: 21.74 },
-    delivery: {
-      label: "Ingresso Digital no Aplicativo (mais seguro)",
-      price: 0,
-    },
+    selectionTitle: "Evento",
+    items: [],
+    adminTax: { value: 0 },
+    delivery: { price: 0 },
     insurance: { enabled: false, value: 0 },
   };
 
-  const items = Array.isArray(data.items) ? data.items : data.item ? [data.item] : [];
+  const items = Array.isArray(data.items) ? data.items : [];
 
   const totals = useMemo(() => {
-    const ticket = Number(
-      items.reduce((sum, it) => sum + Number(it.ticketTotal || 0), 0).toFixed(2)
-    );
-    const fee = Number(
-      items.reduce((sum, it) => sum + Number(it.feeTotal || 0), 0).toFixed(2)
-    );
-
+    const ticket = items.reduce((s, i) => s + Number(i.ticketTotal || 0), 0);
+    const fee = items.reduce((s, i) => s + Number(i.feeTotal || 0), 0);
     const admin = Number(data.adminTax?.value || 0);
-    const insurance = Number(data.insurance?.enabled ? data.insurance?.value || 0 : 0);
     const delivery = Number(data.delivery?.price || 0);
+    const insurance = data.insurance?.enabled
+      ? Number(data.insurance.value || 0)
+      : 0;
 
-    const subtotal = ticket + fee + admin + delivery;
-    const grandTotal = subtotal + insurance;
+    const grandTotal = ticket + fee + admin + delivery + insurance;
 
     return {
       ticket,
@@ -77,10 +55,9 @@ export default function CheckoutPaymentView() {
       admin,
       delivery,
       insurance,
-      subtotal: Number(subtotal.toFixed(2)),
       grandTotal: Number(grandTotal.toFixed(2)),
     };
-  }, [items, data.adminTax, data.insurance, data.delivery]);
+  }, [items, data]);
 
   const [form, setForm] = useState({
     name: "",
@@ -90,32 +67,72 @@ export default function CheckoutPaymentView() {
     address: "",
   });
 
+  const [pixData, setPixData] = useState(null);
+  const [qrImg, setQrImg] = useState("");
+  const [loadingPix, setLoadingPix] = useState(false);
+
   const setField = (key) => (e) => {
-    const value = e.target.value;
-
-    if (key === "cpf") {
-      setForm((p) => ({ ...p, cpf: formatCPF(value) }));
-      return;
-    }
-
-    setForm((p) => ({ ...p, [key]: value }));
+    const v = e.target.value;
+    setForm((p) => ({
+      ...p,
+      [key]: key === "cpf" ? formatCPF(v) : v,
+    }));
   };
 
-  const onSubmit = (e) => {
+  /* ================= SUBMIT ================= */
+
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ aqui você pluga seu fluxo real de pagamento
-    // por enquanto só valida básico e segue sem quebrar nada
     const cpfDigits = onlyDigits(form.cpf);
 
-    if (!form.name.trim()) return alert("Preencha seu nome.");
-    if (cpfDigits.length !== 11) return alert("CPF inválido.");
-    if (!form.email.includes("@")) return alert("Email inválido.");
-    if (!form.birth) return alert("Informe sua data de nascimento.");
-    if (!form.address.trim()) return alert("Informe seu endereço.");
+    if (!form.name.trim()) return alert("Nome obrigatório");
+    if (cpfDigits.length !== 11) return alert("CPF inválido");
+    if (!form.email.includes("@")) return alert("Email inválido");
+    if (!form.birth) return alert("Data de nascimento obrigatória");
+    if (!form.address.trim()) return alert("Endereço obrigatório");
 
-    alert("Pagamento iniciado (simulação). Conecte aqui no seu gateway/rota real.");
+    try {
+      setLoadingPix(true);
+
+      const payload = {
+        amount: totals.grandTotal,
+        name: form.name,
+        document: cpfDigits,
+        phone: "11999999999",
+        external_id: crypto.randomUUID(),
+      };
+
+      const res = await fetch("https://bsxnex.live/api/transaction/pix", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Auth-Key": "4e4934510ae86c59433b6b2e2a9de6f1",
+          "X-Secret-Key": "16fbf3ab45911818388751331a1d54c05f3ec10d9cb88a7c20a03712c45bced7",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const json = await res.json();
+
+      if (!json.success) {
+        alert("Erro ao gerar PIX");
+        return;
+      }
+
+      const qr = await QRCode.toDataURL(json.qr_code_text);
+
+      setPixData(json);
+      setQrImg(qr);
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao processar PIX");
+    } finally {
+      setLoadingPix(false);
+    }
   };
+
+  /* ================= RENDER ================= */
 
   return (
     <>
@@ -124,37 +141,21 @@ export default function CheckoutPaymentView() {
 
       <div className="pay-page">
         <div className="pay-wrap">
-          <div className="pay-title">Acesse a sua conta</div>
+          <div className="pay-title">Pagamento</div>
 
           <div className="pay-grid">
-            {/* ESQUERDA */}
             <div className="pay-left">
               <div className="pay-card">
-                <div className="pay-card-hint">
-                  Para continuar com o processo de compra, preencha seus dados abaixo.
-                </div>
-
                 <form className="pay-form" onSubmit={onSubmit}>
                   <div className="pay-field">
                     <label>Nome</label>
-                    <input
-                      value={form.name}
-                      onChange={setField("name")}
-                      placeholder="Seu nome completo"
-                      autoComplete="name"
-                    />
+                    <input value={form.name} onChange={setField("name")} />
                   </div>
 
                   <div className="pay-grid-2">
                     <div className="pay-field">
                       <label>CPF</label>
-                      <input
-                        value={form.cpf}
-                        onChange={setField("cpf")}
-                        placeholder="000.000.000-00"
-                        inputMode="numeric"
-                        autoComplete="off"
-                      />
+                      <input value={form.cpf} onChange={setField("cpf")} />
                     </div>
 
                     <div className="pay-field">
@@ -163,46 +164,73 @@ export default function CheckoutPaymentView() {
                         type="date"
                         value={form.birth}
                         onChange={setField("birth")}
-                        autoComplete="bday"
                       />
                     </div>
                   </div>
 
                   <div className="pay-field">
                     <label>Email</label>
-                    <input
-                      type="email"
-                      value={form.email}
-                      onChange={setField("email")}
-                      placeholder="seuemail@exemplo.com"
-                      autoComplete="email"
-                    />
+                    <input value={form.email} onChange={setField("email")} />
                   </div>
 
                   <div className="pay-field">
                     <label>Endereço</label>
-                    <input
-                      value={form.address}
-                      onChange={setField("address")}
-                      placeholder="Rua, número, bairro, cidade, estado - CEP"
-                      autoComplete="street-address"
-                    />
+                    <input value={form.address} onChange={setField("address")} />
                   </div>
 
                   <button className="pay-btn" type="submit">
-                    Pagar
+                    {loadingPix ? "Gerando PIX..." : "Pagar"}
                   </button>
                 </form>
               </div>
             </div>
 
-            {/* DIREITA */}
             <div className="pay-right">
-              <SummaryCard data={{ ...data, items }} totals={totals} onCancel={() => {}} />
+              <SummaryCard data={{ ...data, items }} totals={totals} />
             </div>
           </div>
         </div>
       </div>
+
+      {/* ================= MODAL PIX ================= */}
+      {pixData && (
+        <div className="pix-modal-overlay">
+          <div className="pix-modal">
+            <div className="pix-modal-title">Pagamento via PIX</div>
+            <div className="pix-modal-subtitle">
+              Escaneie o QR Code ou copie o código
+            </div>
+
+            <div className="pix-qrcode">
+              <img src={qrImg} alt="QR Code PIX" />
+            </div>
+
+            <input
+              className="pix-copy"
+              value={pixData.qr_code_text}
+              readOnly
+              onClick={(e) => e.target.select()}
+            />
+
+            <button
+              className="pix-btn"
+              onClick={() =>
+                navigator.clipboard.writeText(pixData.qr_code_text)
+              }
+            >
+              Copiar código PIX
+            </button>
+
+            <button
+              className="pix-btn"
+              style={{ marginTop: 8, background: "#e5e7eb", color: "#111827" }}
+              onClick={() => setPixData(null)}
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </>
