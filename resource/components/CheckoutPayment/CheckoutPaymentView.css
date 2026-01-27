@@ -1,3 +1,5 @@
+/* ================= PAGE ================= */
+
 .pay-page {
   background: #eef1f5;
   width: 100%;
@@ -18,6 +20,8 @@
   margin: 10px 0 22px;
 }
 
+/* ================= GRID ================= */
+
 .pay-grid {
   display: grid;
   grid-template-columns: 1fr 380px;
@@ -30,11 +34,13 @@
   min-width: 0;
 }
 
+/* ================= CARD ================= */
+
 .pay-card {
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 2px;
-  padding: 16px 16px 18px;
+  border-radius: 6px;
+  padding: 18px 18px 20px;
 }
 
 .pay-card-hint {
@@ -43,10 +49,16 @@
   margin-bottom: 12px;
 }
 
+/* ================= FORM ================= */
+
 .pay-form {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.pay-field {
+  position: relative;
 }
 
 .pay-field label {
@@ -60,16 +72,59 @@
   width: 100%;
   height: 40px;
   border: 1px solid #d1d5db;
-  border-radius: 2px;
+  border-radius: 4px;
   padding: 0 12px;
   font-size: 13px;
   color: #111827;
   outline: none;
+  background: #ffffff;
+  transition: border-color 0.2s;
 }
 
 .pay-field input:focus {
   border-color: #0146d5;
 }
+
+/* Campos preenchidos automaticamente via API */
+.pay-field input.input-disabled {
+  background-color: #f9fafb;
+  color: #6b7280;
+  cursor: not-allowed;
+  border: 1px solid #e5e7eb;
+}
+
+/* ================= CEP FEEDBACK ================= */
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cep-spinner {
+  position: absolute;
+  right: 12px;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #e5e7eb;
+  border-top-color: #0146d5;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.cep-check {
+  position: absolute;
+  right: 12px;
+  color: #16a34a;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ================= GRID 2 ================= */
 
 .pay-grid-2 {
   display: grid;
@@ -77,21 +132,29 @@
   gap: 12px;
 }
 
+/* ================= BUTTON ================= */
+
 .pay-btn {
   margin-top: 6px;
   width: 100%;
   height: 44px;
   border: none;
-  border-radius: 2px;
+  border-radius: 4px;
   background: #0146d5;
   color: #ffffff;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
+  transition: filter 0.2s;
 }
 
-.pay-btn:hover {
-  filter: brightness(0.95);
+.pay-btn:hover:not(:disabled) {
+  filter: brightness(0.9);
+}
+
+.pay-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
 }
 
 /* ================= PIX MODAL ================= */
@@ -99,7 +162,7 @@
 .pix-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(17, 24, 39, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,55 +173,119 @@
   background: #ffffff;
   width: 100%;
   max-width: 420px;
-  padding: 24px;
-  border-radius: 4px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  animation: pixModalIn 0.25s ease-out;
+}
+
+@keyframes pixModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.pix-modal-topbar {
+  background: #0b4dd9;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pix-modal-topbar img {
+  height: 26px;
+  object-fit: contain;
+}
+
+.pix-modal-content {
+  padding: 20px 22px 22px;
   text-align: center;
 }
 
-.pix-modal h3 {
+.pix-modal-title {
   font-size: 18px;
   font-weight: 600;
-  margin-bottom: 8px;
+  color: #111827;
+  margin-bottom: 4px;
 }
 
-.pix-modal img {
-  width: 220px;
-  height: 220px;
-  margin: 16px auto;
-  display: block;
-}
-
-.pix-modal input {
-  width: 100%;
-  height: 40px;
-  border: 1px solid #d1d5db;
-  border-radius: 2px;
-  padding: 0 12px;
-  font-size: 12px;
+.pix-modal-subtitle {
+  font-size: 13px;
+  color: #6b7280;
   margin-bottom: 12px;
 }
 
-.pix-modal button {
+.pix-expiration {
+  font-size: 13px;
+  color: #1f2937;
+  margin-bottom: 14px;
+}
+
+.pix-expiration strong {
+  color: #dc2626;
+}
+
+.pix-qrcode {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.pix-qrcode img {
+  width: 220px;
+  height: 220px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 8px;
+  background: #ffffff;
+}
+
+.pix-copy {
   width: 100%;
   height: 40px;
-  border: none;
-  border-radius: 2px;
-  font-size: 13px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 0 12px;
+  font-size: 12px;
+  background: #f9fafb;
+  margin-bottom: 10px;
   cursor: pointer;
+  text-align: center;
 }
 
-.pix-modal button:first-of-type {
+.pix-btn {
+  width: 100%;
+  height: 42px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
   background: #16a34a;
   color: #ffffff;
-  margin-bottom: 8px;
+  transition: filter 0.2s;
 }
 
-.pix-modal button:last-of-type {
+.pix-btn + .pix-btn {
+  margin-top: 8px;
   background: #e5e7eb;
   color: #111827;
 }
 
-/* RESPONSIVO */
+.pix-btn-close:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ================= RESPONSIVO ================= */
+
 @media (max-width: 1024px) {
   .pay-wrap {
     padding: 28px 16px 48px;

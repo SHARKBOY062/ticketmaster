@@ -2,11 +2,12 @@
   width: 100%;
 }
 
-/* CARD MAIOR (igual print 2) */
+/* ================= CARD ================= */
+
 .dm-option {
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 2px;
+  border-radius: 4px;
 
   padding: 22px 22px;
   display: grid;
@@ -16,32 +17,35 @@
 
   cursor: pointer;
   user-select: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .dm-option:hover {
-  border-color: #dbe3f6;
+  border-color: #c7d2fe;
 }
 
 .dm-option.is-active {
-  border-color: #dbe3f6;
-  box-shadow: 0 0 0 2px rgba(1, 70, 213, 0.06);
+  border-color: #c7d2fe;
+  box-shadow: 0 0 0 2px rgba(1, 70, 213, 0.08);
 }
 
-/* Acessibilidade */
+/* ================= ACESSIBILIDADE ================= */
+
 .dm-option:focus {
   outline: none;
 }
 
 .dm-option:focus-visible {
-  box-shadow: 0 0 0 3px rgba(1, 70, 213, 0.22);
+  box-shadow: 0 0 0 3px rgba(1, 70, 213, 0.25);
 }
 
-/* ÍCONE (maior e com borda clara) */
+/* ================= ÍCONE PRINCIPAL ================= */
+
 .dm-icon {
   width: 44px;
   height: 64px;
-  border: 1px solid #bfdbfe;
-  border-radius: 3px;
+  border: 1px solid #dbeafe;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,7 +58,8 @@
   height: 20px;
 }
 
-/* Texto */
+/* ================= TEXTO ================= */
+
 .dm-text {
   min-width: 0;
 }
@@ -69,23 +74,75 @@
 .dm-desc {
   font-size: 12px;
   color: #6b7280;
-  line-height: 1.35;
-  max-width: 520px; /* ajuda a ficar igual ao print */
+  line-height: 1.4;
+  max-width: 520px;
 }
 
-/* Direita */
+/* ================= LADO DIREITO ================= */
+
 .dm-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
 }
 
-.dm-price {
-  font-size: 12px;
-  color: #2f7d32;
+/* CTA */
+
+.dm-cta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
   font-weight: 600;
+  color: #0b4dd9;
   white-space: nowrap;
 }
+
+/* bolinha pulsante pequena */
+
+.dm-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16a34a;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.dm-pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(22, 163, 74, 0.6);
+  animation: dm-pulse 1.6s infinite;
+}
+
+@keyframes dm-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* ÍCONE TELEFONE */
+
+.dm-phone {
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+}
+
+.dm-phone svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* CHEVRON */
 
 .dm-chevron {
   font-size: 22px;
@@ -94,29 +151,46 @@
   transform: translateY(-1px);
 }
 
-/* MOBILE */
+/* ================= ESTADO ATIVO ================= */
+
+.dm-option.is-active .dm-cta {
+  color: #0b4dd9;
+}
+
+.dm-option.is-active .dm-pulse {
+  background: #16a34a;
+}
+
+/* ================= MOBILE ================= */
+
 @media (max-width: 640px) {
   .dm-option {
     grid-template-columns: 52px 1fr;
     grid-template-areas:
-      "i t"
-      ". r";
+      "icon text"
+      ". right";
     row-gap: 12px;
     padding: 18px 16px;
   }
 
   .dm-icon {
-    grid-area: i;
+    grid-area: icon;
     width: 42px;
     height: 58px;
   }
 
   .dm-text {
-    grid-area: t;
+    grid-area: text;
   }
 
   .dm-right {
-    grid-area: r;
+    grid-area: right;
     justify-content: flex-start;
+    gap: 12px;
+  }
+
+  .dm-cta {
+    font-size: 12px;
+    white-space: normal;
   }
 }

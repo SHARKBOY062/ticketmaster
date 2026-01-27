@@ -7,13 +7,12 @@ export default function DeliveryMethodCard({ value = "app", onChange }) {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  // ✅ pega o checkout que veio do step anterior (OrderProtectionView)
+  // pega o checkout que veio do step anterior
   const checkout = useMemo(() => state?.checkout ?? null, [state]);
 
   const handleSelect = () => {
     onChange?.("app");
 
-    // ✅ vai para a nova page
     navigate("/checkout/payment", {
       state: {
         checkout: {
@@ -45,6 +44,7 @@ export default function DeliveryMethodCard({ value = "app", onChange }) {
         onKeyDown={handleKeyDown}
         aria-pressed={selected}
       >
+        {/* ÍCONE PRINCIPAL */}
         <div className="dm-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" className="dm-icon-svg">
             <path
@@ -54,17 +54,40 @@ export default function DeliveryMethodCard({ value = "app", onChange }) {
           </svg>
         </div>
 
+        {/* TEXTO */}
         <div className="dm-text">
-          <div className="dm-title">Ingresso Digital no Aplicativo (mais seguro)</div>
+          <div className="dm-title">
+            Ingresso Digital no Aplicativo (mais seguro)
+          </div>
           <div className="dm-desc">
-            É necessário efetuar o download do aplicativo Quentro e seguir as instruções em tela
-            após concluir a compra. Por segurança o código do ingresso é atualizado diversas
-            vezes por minuto.
+            É necessário efetuar o download do aplicativo Quentro e seguir as
+            instruções em tela após concluir a compra. Por segurança o código do
+            ingresso é atualizado diversas vezes por minuto.
           </div>
         </div>
 
+        {/* CALL TO ACTION */}
         <div className="dm-right">
-          <div className="dm-price">Grátis</div>
+          <div className="dm-cta">
+            <span className="dm-pulse" aria-hidden="true" />
+            <span className="dm-cta-text">
+              Finalize agora a compra do seu ingresso!
+            </span>
+          </div>
+
+          <div className="dm-phone" aria-hidden="true">
+            {/* ÍCONE TELEFONE ELEGANTE */}
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25
+                   11.4 11.4 0 0 0 3.6.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1
+                   C10.1 21 3 13.9 3 5a1 1 0 0 1 1-1h3.4a1 1 0 0 1 1 1
+                   11.4 11.4 0 0 0 .6 3.6 1 1 0 0 1-.25 1z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+
           <div className="dm-chevron" aria-hidden="true">
             ›
           </div>
