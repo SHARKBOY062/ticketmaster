@@ -34,7 +34,12 @@ function getStripeClass(name) {
   }
 }
 
-export default function SectorItem({ name, price, onClick }) {
+export default function SectorItem({
+  name,
+  price,
+  discountedPrice,
+  onClick,
+}) {
   return (
     <button className="sector-item" onClick={onClick} type="button">
       <div className="sector-content">
@@ -42,7 +47,17 @@ export default function SectorItem({ name, price, onClick }) {
 
         <div className="sector-main">
           <div className="sector-title">{name}</div>
-          <div className="sector-price">{price}</div>
+
+          {/* preço original */}
+          <div className="sector-price original">{price}</div>
+
+          {/* preço com desconto apenas visual */}
+          {discountedPrice && (
+            <div className="sector-price discount">
+              {discountedPrice}
+              <span className="sector-off">30% OFF</span>
+            </div>
+          )}
 
           <div className="sector-sub">
             <span className="sector-icon">▦</span>

@@ -144,3 +144,25 @@
     font-size: 28px;
   }
 }
+.sector-price.original {
+  text-decoration: line-through;
+  opacity: 0.5;
+  font-size: 0.9rem;
+}
+
+.sector-price.discount {
+  color: #00c853;
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sector-off {
+  background: #00c853;
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
