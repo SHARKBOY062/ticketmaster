@@ -19,12 +19,15 @@ function formatBRL(value) {
 export default function SectorPrices({ sector, onClear }) {
   const navigate = useNavigate();
 
-  // aceita sector como string OU objeto {name, price}
+  // aceita sector como string OU objeto {name, price, discountedPriceText?}
   const sectorName = typeof sector === "string" ? sector : sector?.name || "";
-  const sectorPriceText = typeof sector === "string" ? "" : sector?.price || "";
 
-  // base INTEIRA vem do texto do SectorList (A partir de R$ X + R$ Y)
-  // meia/idoso/pcd = metade (como você pediu)
+  // ✅ AQUI: se existir discountedPriceText, ele vira a base do funil
+  const sectorPriceText =
+    typeof sector === "string"
+      ? ""
+      : sector?.discountedPriceText || sector?.price || "";
+
   const prices = useMemo(() => {
     // fallback (se vier vazio)
     let inteiraTicket = 375;
@@ -118,7 +121,6 @@ export default function SectorPrices({ sector, onClear }) {
 
   // 🔥 ÚLTIMO BOTÃO (da tela review) -> NOVA PAGE
   const goToOrderProtection = () => {
-    // Monta payload consistente pro OrderProtectionView (data.items)
     const labels = {
       inteira: "Inteira",
       meia: "Meia-Entrada",
@@ -146,7 +148,6 @@ export default function SectorPrices({ sector, onClear }) {
         };
       });
 
-    // fallback caso algo venha inválido
     const safeItems =
       items.length > 0
         ? items
@@ -166,6 +167,8 @@ export default function SectorPrices({ sector, onClear }) {
       selectionTitle: "The Weeknd - São Paulo - 30/04/2026",
       items: safeItems,
       adminTax: { label: "1 x Taxa de Administração MorumbiS", value: 21.74 },
+      // opcional: se você quiser exibir depois em outra tela
+      discountPercent: typeof sector === "object" ? sector?.discountPercent : undefined,
     };
 
     navigate("/checkout/protection", {
@@ -267,7 +270,10 @@ export default function SectorPrices({ sector, onClear }) {
                   </div>
                 </div>
 
-                <button className="review-change" onClick={backToSelectorKeepCounts}>
+                <button
+                  className="review-change"
+                  onClick={backToSelectorKeepCounts}
+                >
                   Mudar valor
                 </button>
               </div>
@@ -286,13 +292,11 @@ export default function SectorPrices({ sector, onClear }) {
             </strong>
           </div>
 
-          {/* ✅ primeiro continuar: vai pra review */}
           {step === "selector" ? (
             <button className="continue-btn" onClick={() => setStep("review")}>
               Continuar
             </button>
           ) : (
-            /* ✅ último continuar: vai pra nova page */
             <button className="continue-btn" onClick={goToOrderProtection}>
               Continuar
             </button>
